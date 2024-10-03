@@ -1,5 +1,4 @@
-﻿using GNWarsServer.WindowsService.Objects;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using PersistentMapAPI;
 using PersistentMapAPI.Domain;
 using Serilog;
@@ -259,6 +258,9 @@ namespace AutowarAddon
 
         public void TakeTurn()
         {
+            if (!Settings.Load().Autowar_Enabled)
+                return;
+
             _log.Information("***Autowar turn started***");
             _log.Information(DateTime.Now.ToString());
             var settings = Settings.Load();
