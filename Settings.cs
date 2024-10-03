@@ -22,7 +22,7 @@ namespace AutowarAddon
         public int Autowar_Max_Fortify_Change = 25;
         public int Autowar_Min_Fortify_Change = 3;
 
-        public List<string> Autowar_TurnDiscordWebhookURLs = new List<string>()
+        public HashSet<string> Autowar_TurnDiscordWebhookURLs = new HashSet<string>()
         {
 #if DEBUG
             //rabid bot test channel            
@@ -36,9 +36,10 @@ namespace AutowarAddon
         static public Settings Load()
         {
             if (File.Exists(FILENAME))
-            {
+            {                
                 var file = File.ReadAllText(FILENAME);
-                return JsonConvert.DeserializeObject<Settings>(file);
+                var s = JsonConvert.DeserializeObject<Settings>(file);
+                return s;
             }
             else
                 return new Settings();
@@ -50,8 +51,11 @@ namespace AutowarAddon
         {
             try
             {
-                var json = JsonConvert.SerializeObject(this);
-                File.WriteAllText(FILENAME, json);
+                if (!File.Exists(FILENAME))
+                {
+                    var json = JsonConvert.SerializeObject(this);
+                    File.WriteAllText(FILENAME, json);
+                }
             }
             catch { Console.WriteLine("FAILED to save autowar settings"); }
         }

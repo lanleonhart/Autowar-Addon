@@ -375,7 +375,7 @@ namespace AutowarAddon
                                     targetWorld.SetFactionControlByFaction(actingFaction.faction, 0);
                                     var attackingFaction = targetWorld.FindFactionControlByFaction(actingFaction.faction);                                    
                                     
-                                    _updateSystemControl(attackingFaction.faction, Faction.INVALID_UNSET, MissionResult.Victory, targetWorld, damage, DateTime.UtcNow);
+                                    _updateSystemControl.Invoke(attackingFaction.faction, Faction.INVALID_UNSET, MissionResult.Victory, targetWorld, damage, DateTime.UtcNow);
                                     RecordFactionActivity(actingFaction, null, targetWorld);  
 
                                     lastTurn.LastActionID = LastActionID.Invaded;
@@ -407,7 +407,7 @@ namespace AutowarAddon
                                             targetWorld.SetFactionControlByFaction(actingFaction.faction, 0);
 
                                         int controlChange = rand.Next(settings.Autowar_Min_Faction_Control_Change, settings.Autowar_Max_Faction_Control_Change);
-                                        _updateSystemControl(actingFaction.faction, attackedFaction.faction, MissionResult.Victory, targetWorld, controlChange, DateTime.UtcNow);
+                                        _updateSystemControl.Invoke(actingFaction.faction, attackedFaction.faction, MissionResult.Victory, targetWorld, controlChange, DateTime.UtcNow);
                                         RecordFactionActivity(actingFaction, attackedFaction, targetWorld);
 
                                         //add entry to companies on planet
